@@ -6,7 +6,7 @@
 #include <memory>
 #include <utility>
 #include <vector>
-#include <optional>
+#include <experimental/optional>
 #include "Attribute.h"
 
 
@@ -25,7 +25,7 @@ class Node {
         children.emplace_back(nodePtr);
     }
 
-    void addAttribute(Attribute attribute) {
+    void addAttribute(const Attribute & attribute) {
         attributes.emplace_back(attribute);
     }
 

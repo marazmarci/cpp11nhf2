@@ -9,6 +9,8 @@
 
 int main() {
 
+    //setlocale(LC_ALL, "");
+
     auto body = std::make_shared<Body>();
     auto p1 = std::make_shared<Paragraph>();
     auto p1text = std::make_shared<Text>("Szöveg szöveg szöveg szöveg.");
@@ -18,7 +20,7 @@ int main() {
     auto li2 = std::make_shared<ListItem>();
     auto li2text = std::make_shared<Text>("Felsorolás 2");
     auto p2 = std::make_shared<Paragraph>();
-    auto p2text = std::make_shared<Text>("Szöveg szöveg szöveg szöveg.");
+    auto p2text = std::make_shared<Text>("Szöveg szöveg.");
 
     Attribute ulAttr("id", "mylist");
     ul->addAttribute(ulAttr);
@@ -32,6 +34,9 @@ int main() {
     li1->addChild(li1text);
     li2->addChild(li2text);
     p2->addChild(p2text);
+
+
+    body->print(std::cout);
 
     /*
      *  <body>
