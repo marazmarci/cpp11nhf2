@@ -7,6 +7,6 @@
 class UnorderedList : public Node {
     // TODO csak *li* gyerekei lehessenek
   public:
-    UnorderedList() : Node{"li"} {}
+    UnorderedList() : Node{"ul"} {}
 };
 
