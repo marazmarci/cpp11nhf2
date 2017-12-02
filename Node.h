@@ -45,7 +45,8 @@ class Node {
         return children;
     }
 
-    // TODO InfoC++ ::experimental::
+    // TODO InfoC++ ::experimental::4
+    // TODO kell ez egyáltalán?
     const std::experimental::optional<std::string> getID() const {
         // TODO STL
         for (const Attribute & attribute : attributes)
