@@ -9,7 +9,9 @@
 class Text : public Node {
     const std::string text;
   public:
-    Text(std::string text) : Node{""}, text{std::move(text)} {}
+    Text(const std::shared_ptr<Node> & parentNode, std::string text) : Node("", parentNode), text(std::move(text)) {}
+
+    ///Text(std::string text) : Node{""}, text{std::move(text)} {}
     void print(std::ostream &os) const override {
         os << text;
     }

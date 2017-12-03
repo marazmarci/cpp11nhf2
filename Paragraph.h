@@ -6,6 +6,6 @@
 
 class Paragraph : public Node {
   public:
-    Paragraph() : Node{"p"} {}
+    Paragraph(const std::shared_ptr<Node> & parentNode) : Node("p", parentNode) {}
 };
 

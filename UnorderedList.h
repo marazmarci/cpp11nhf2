@@ -7,6 +7,6 @@
 class UnorderedList : public Node {
     // TODO csak *li* gyerekei lehessenek
   public:
-    UnorderedList() : Node{"ul"} {}
+    UnorderedList(const std::shared_ptr<Node> & parentNode) : Node("ul", parentNode) {}
 };
 

@@ -7,5 +7,6 @@
 class Body : public Node {
   public:
     Body() : Node{"body"} {}
+    Body(const std::shared_ptr<Node> & parentNode) : Node("body", parentNode) {}
 };
 

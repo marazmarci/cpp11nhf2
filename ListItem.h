@@ -6,6 +6,6 @@
 
 class ListItem : public Node {
   public:
-    ListItem() : Node("li") {}
+    ListItem(const std::shared_ptr<UnorderedList> & parentNode) : Node("li", parentNode) {}
 };
 
