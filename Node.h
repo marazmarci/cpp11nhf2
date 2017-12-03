@@ -51,6 +51,13 @@ class Node {
         // TODO Vagy esetleg:
         // TODO minden Node magától hozzon létre okospointert. (pl. getSmartPtr)
 
+        // TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // TODO ASSZEM LEGJOBB megoldás: static factory method: make_node<NodeT>(...)
+        // TODO                            és ez belerakja az új objektumba a smart ptr-jét.
+        // TODO                          ezután már könnyű lessz a node-okat hierarchiába pakolni
+        // TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
         auto newSharedPtr = std::shared_ptr<NodeT>{new NodeT{std::forward<ArgsT>(args)...}};
         addChild(newSharedPtr);
         return newSharedPtr;
