@@ -41,11 +41,16 @@ class Node {
 
     template <class NodeT, typename... ArgsT, typename = std::enable_if_t<std::is_base_of<Node,NodeT>::value>>
     auto newChild(ArgsT && ... args) {
+
         // TODO itt megint nem látja a base Node a saját smart pointer-jét... :'(
         // TODO megoldás: a newChild legyen static és vegye át a base Node smartPtr-jét is paramként
         // TODO             vagy valahogy a base Node tárolja el a saját smartPtr-jét
         // TODO             pl. úgy, hogy lenne egy make_node függvény, ami létrehoz egy node-ot, és a smart pointerjét belepakolja
         // TODO             és a make_node legyen friend
+
+        // TODO Vagy esetleg:
+        // TODO minden Node magától hozzon létre okospointert. (pl. getSmartPtr)
+
         auto newSharedPtr = std::shared_ptr<NodeT>{new NodeT{std::forward<ArgsT>(args)...}};
         addChild(newSharedPtr);
         return newSharedPtr;
