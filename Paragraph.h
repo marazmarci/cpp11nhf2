@@ -4,8 +4,7 @@
 #include "Node.h"
 
 
-class Paragraph : public Node {
-  public:
-    Paragraph(const std::shared_ptr<Node> & parentNode) : Node("p", parentNode) {}
+struct Paragraph : public Node {
+    Paragraph() : Node("p") {}
 };
 

@@ -4,9 +4,7 @@
 #include "Node.h"
 
 
-class UnorderedList : public Node {
-    // TODO csak *li* gyerekei lehessenek
-  public:
-    UnorderedList(const std::shared_ptr<Node> & parentNode) : Node("ul", parentNode) {}
+struct UnorderedList : public Node {
+    UnorderedList() : Node("ul") {}
 };
 

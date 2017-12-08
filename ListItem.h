@@ -4,8 +4,7 @@
 #include "Node.h"
 
 
-class ListItem : public Node {
-  public:
-    ListItem(const std::shared_ptr<UnorderedList> & parentNode) : Node("li", parentNode) {}
+struct ListItem : public Node {
+    ListItem() : Node("li") {}
 };
 
