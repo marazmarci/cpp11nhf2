@@ -7,42 +7,78 @@
 #include "Text.h"
 #include "UnorderedList.h"
 #include "ListItem.h"
+#include "Link.h"
+#include "Image.h"
+#include "Head.h"
+#include "Meta.h"
+#include "LineBreak.h"
 
 
+// #define CGI
+// #define JUST_HTML
+
+
+// CGI && ! JUST_HTML
+// Ha csak a CGI define van engedélyezve, akkor ezt a programot lefordított formájában lehet használni Common Gateway Interface script-ként.
+// A program stdin bemenetként megkapja a HTTP request header-jeit, és a program stdout-ja fog visszaküldődni a kliens-böngészőnek.
+// pl. egy Apache webszerveren a megfelelő ".htaccess" fájllal konfigurálva. Mellékeltem egy ilyet, amivel nekem működik.
+//   A lefordított programmal egy könyvtárba kell tenni az Apache egyik publikus mappájába. Utána pl így lehet elérni: http://marci.hu/cpp11.exe
+
+// ! CGI && JUST_HTML
+// Ha csak a JUST_HTML define van engedélyezve, akkor a program kimenete egy az egyben pl. egy console pipe-pal fájlba írható, és egy böngészőben megnézhető
+
+// ! CGI && ! JUST_HTML
+// Ha egyik sincs engedélyezve, akkor pedig egy normál, "felhasználóbarát", konzolos programként fordul.
+
+// CGI && JUST_HTML
+// Ha mindegyik engedélyezve van, az ugyanolyan, mintha csak a CGI lenne.
+
+#ifdef JUST_HTML
 #define CGI
-
+#endif
 
 
 int main() {
 
-    //setlocale(LC_ALL, "");
-
 #ifdef CGI
+#ifndef JUST_HTML
     std::cout << "Content-type: text/html; charset=utf-8" << std::endl << std::endl;
 #endif
-    // TODO encoding
+#endif
+
+#ifndef CGI
+    std::cout << "Szia! A main.cpp elején lévő define-okkal tudod különböző módokban lefordítani a programot." << std::endl;
+    std::cout << "Leírás a main.cpp elején a kommentekben!" << std::endl << std::endl;
+#endif
 
     auto htmlRoot = Node::make_node<HtmlRoot>();
 
+    auto head = htmlRoot->newChild<Head>();
+    auto meta = head->newChild<Meta>();
+    meta->addAttribute("charset","UTF-8"); // sajnos Windows-on nem tudtam elérni, hogy fájlba pipe-olva is jó legyen a karakterkódolás, pedig többel is próbálkoztam :(
     auto body = htmlRoot->newChild<Body>();
     auto p1 = body->newChild<Paragraph>();
     auto p1text = p1->newChild<Text>("Szöveg szöveg szöveg szöveg.");
     auto ul = p1->newChild<UnorderedList>();
-    ul->addAttribute({"id","mylist"});
+    ul->setID("mylist");
     auto li1 = ul->newChild<ListItem>();
     auto li1text = li1->newChild<Text>("Felsorolás 1");
     auto li2 = ul->newChild<ListItem>();
     auto li2text = li2->newChild<Text>("Felsorolás 2");
     auto p2 = body->newChild<Paragraph>();
     auto p2text = p2->newChild<Text>("Szöveg szöveg.");
-
     auto ul_sublist = ul->newChild<UnorderedList>();
+    auto link = body->newChild<Link>("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+    link->newChild<Text>("Ez egy link");
+    body->newChild<LineBreak>();
+    body->newChild<LineBreak>();
+    body->newChild<Image>("http://abstrusegoose.com/strips/ars_longa_vita_brevis.png");
 
     int n;
 #ifdef CGI
     n = 5;
 #else
-    std::cout<<"Szia! Hány listaelemet kérsz? ";
+    std::cout<<"Hány listaelemet kérsz? ";
     std::cin >> n;
 #endif
     std::stringstream ss;
@@ -51,68 +87,20 @@ int main() {
         ss.str("");
         ss << i << '.';
         ul_sublist->newChild<ListItem>()->newChild<Text>(ss.str());
-        auto ul_subsublist = ul_sublist->newChild<UnorderedList>();
-        for (int j = 1; j <= 5; ++j) {
-            ss.str("");
-            auto lili = ul_subsublist->newChild<ListItem>();
-            ss << j << '.';
-            lili->newChild<Text>(ss.str());
-        }
     }
-
-
-
-
-
-    /*
-    auto htmlRoot = std::make_shared<HtmlRoot>();
-    auto body = std::make_shared<Body>(htmlRoot);
-    auto p1 = std::make_shared<Paragraph>(body);
-    auto p1text = std::make_shared<Text>(p1, "Szöveg szöveg szöveg szöveg.");
-    auto ul = std::make_shared<UnorderedList>(body);
-    auto li1 = std::make_shared<ListItem>(ul);
-    auto li1text = std::make_shared<Text>(li1, "Felsorolás 1");
-    auto li2 = std::make_shared<ListItem>(ul);
-    auto li2text = std::make_shared<Text>(li2, "Felsorolás 2");
-    auto p2 = std::make_shared<Paragraph>(body);
-    auto p2text = std::make_shared<Text>(p2, "Szöveg szöveg.");
-
-    htmlRoot->newChild<Body>();
-
-    Node::newChild()
-
-     */
-
-
-    /*
-     *  <body>
-     *  <p>Szöveg szöveg szöveg szöveg.</p>
-     *  <ul id="mylist">
-     *      <li>Felsorolás 1</li>
-     *      <li>Felsorolás 2</li>
-     *  </ul>
-     *  <p>Szöveg szöveg.</p>
-     *  </body>
-     */
-
-
-    //Attribute ulAttr("id", "mylist");
-    //ul->addAttribute(ulAttr);
-
-    /*body->addChild(p1);
-    body->addChild(ul);
-    body->addChild(p2);
-    p1->addChild(p1text);
-    ul->addChild(li1);
-    ul->addChild(li2);
-    li1->addChild(li1text);
-    li2->addChild(li2text);
-    p2->addChild(p2text);*/
-
 
     htmlRoot->print(std::cout);
 
 
+#ifndef CGI
 
-    return 0;
+    auto mylist = htmlRoot->getElementById("mylist");
+    std::cout << std::endl << std::endl << "htmlRoot->getElementById(\"mylist\")" << std::endl << std::endl;
+    if (mylist)
+        (*mylist)->print(std::cout);
+    else
+        std::cout << "nem találtam meg a mylist id-vel rendelkező tag-et! :(" << std::endl;
+
+#endif
+
 }

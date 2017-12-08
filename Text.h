@@ -9,10 +9,7 @@
 class Text : public Node {
     const std::string text;
   public:
-    Text(std::string text) : Node(""), text(std::move(text)) {}
-    void print(std::ostream & os, size_t indent) const override {
-        printIndents(os, indent);
-        os << text << std::endl;
-    }
+    explicit Text(std::string text) : Node(""), text(std::move(text)) {}
+    void print(std::ostream & os, size_t indent) const override;
 };
 
