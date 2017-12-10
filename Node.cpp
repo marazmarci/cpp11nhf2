@@ -62,11 +62,9 @@ void Node::adoptChild(std::shared_ptr<Node> childNode) {
 }
 
 void Node::addAttribute(const std::string & key, const std::string & value) {
-    //attributes.emplace_back(attribute);
-    //attributes.insert(key, value);
     attributes[key] = value;
     if (key == "id") {
-        //idMap[value] = thisWeakPtr.lock();
+        idMap[value] = thisWeakPtr.lock();
         pushIDsUpInTree();
     }
 }
@@ -76,7 +74,6 @@ const std::vector<std::shared_ptr<Node>> & Node::getChildren() const {
 }
 
 const std::experimental::optional<std::shared_ptr<Node>> Node::getElementById(const std::string & id) const {
-    //return getElementWithAttr("id", id);
     if (idMap.count(id))
         return {idMap.at(id)};
     return {};
@@ -84,7 +81,7 @@ const std::experimental::optional<std::shared_ptr<Node>> Node::getElementById(co
 
 const std::experimental::optional<std::shared_ptr<Node>>
 Node::getElementWithAttr(const std::string & key, const std::string & value) const {
-    // BFS algoritmussal működik
+    // BFS algoritmussal
     for (const auto & child : children)
         for (const auto & attribute : child->attributes)
             if (attribute.first == key && attribute.second == value)
