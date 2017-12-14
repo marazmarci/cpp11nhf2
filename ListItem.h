@@ -5,6 +5,6 @@
 
 
 struct ListItem : public Node {
-    ListItem() : Node("li") {}
+    ListItem();
+    explicit ListItem(const std::string & text);
 };
-

@@ -5,6 +5,7 @@
 
 
 struct Paragraph : public Node {
-    Paragraph() : Node("p") {}
+    Paragraph();
+    explicit Paragraph(const std::string & text);
 };
 

@@ -12,9 +12,10 @@
 #include "Head.h"
 #include "Meta.h"
 #include "LineBreak.h"
+#include "Title.h"
 
 
-// #define CGI
+#define CGI
 // #define JUST_HTML
 
 
@@ -56,17 +57,14 @@ int main() {
     auto head = htmlRoot->newChild<Head>();
     auto meta = head->newChild<Meta>();
     meta->addAttribute("charset","UTF-8"); // sajnos Windows-on nem tudtam elérni, hogy fájlba pipe-olva is jó legyen a karakterkódolás, pedig többel is próbálkoztam :(
+    auto title = head->newChild<Title>("C++11 NHF2");
     auto body = htmlRoot->newChild<Body>();
-    auto p1 = body->newChild<Paragraph>();
-    auto p1text = p1->newChild<Text>("Szöveg szöveg szöveg szöveg.");
+    auto p1 = body->newChild<Paragraph>("Szöveg szöveg szöveg szöveg.");
     auto ul = p1->newChild<UnorderedList>();
     ul->setID("mylist");
-    auto li1 = ul->newChild<ListItem>();
-    auto li1text = li1->newChild<Text>("Felsorolás 1");
-    auto li2 = ul->newChild<ListItem>();
-    auto li2text = li2->newChild<Text>("Felsorolás 2");
-    auto p2 = body->newChild<Paragraph>();
-    auto p2text = p2->newChild<Text>("Szöveg szöveg.");
+    auto li1 = ul->newChild<ListItem>("Felsorolás 1");
+    auto li2 = ul->newChild<ListItem>("Felsorolás 2");
+    auto p2 = body->newChild<Paragraph>("Szöveg szöveg.");
     auto ul_sublist = ul->newChild<UnorderedList>();
     auto link = body->newChild<Link>("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
     link->newChild<Text>("Ez egy link");
